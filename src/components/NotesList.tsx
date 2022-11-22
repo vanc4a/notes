@@ -3,22 +3,29 @@ import {List} from '@mui/material';
 import NoteItem from './items/NoteItem';
 import EditItem from './items/EditItem';
 import uuid from 'uuid-random';
+import NotesRepository from '../repositories/NotesRepository';
 
 const NotesList = () => {
-    const [notes,setNotes] = useState([{title: '1123 #12',id: '1234'},{title: '1123 #12121',id: '123445'}]);
+    const [notes,setNotes] = useState([]);
     const [tags,setTags] = useState([]);
+    const notesRepository = new NotesRepository();
+
+    useEffect(() => {
+        setNotes(notesRepository.get())
+    })  
 
     const deleteItem = (id: string) => {
-        setNotes(notes.filter(note => note.id !== id));
+        console.log(notes)
+        notesRepository.delete(id);
     }
 
     const updateItem = (id: string,title: string) => {
-        notes.map(note => note.id === id ? note.title = title : null)
+        notesRepository.update(id,title);
     }
 
     const createItem = (title: string) => {
         let item = {title: title, id: uuid()}
-        setNotes([...notes,item])
+        notesRepository.set(item)
     }
 
     return(<List>

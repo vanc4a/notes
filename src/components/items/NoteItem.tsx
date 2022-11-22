@@ -15,7 +15,7 @@ const NoteItem = ({item,deleteItem,updateItem} : NoteProps) => {
 
     const Title = (str: string) => str.includes('#') ? str.slice(0,str.indexOf('#')) : str;
     const Tags = (str: string) => str.includes('#') ? str.slice(str.indexOf('#')).split(' ') : [];
-    const Update = (str: string) => {updateItem(item.id, str);setEditing(false)}
+    const Update = (str: string) => {setEditing(false);updateItem(item.id, str)}
 
     if(isEditing){
       return <EditItem createItem={Update} initial={item.title}/>
