@@ -1,29 +1,29 @@
 import {useState,useEffect} from 'react';
 import {List} from '@mui/material';
 import NoteItem from './items/NoteItem';
-import AddItem from './items/AddItem';
+import EditItem from './items/EditItem';
 import uuid from 'uuid-random';
 
 const NotesList = () => {
     const [notes,setNotes] = useState([{title: '1123 #12',id: '1234'},{title: '1123 #12121',id: '123445'}]);
+    const [tags,setTags] = useState([]);
 
     const deleteItem = (id: string) => {
-        setNotes(notes.filter(note => note.id != id));
+        setNotes(notes.filter(note => note.id !== id));
     }
 
-    const updateItem = (item: any) => {
-
+    const updateItem = (id: string,title: string) => {
+        notes.map(note => note.id === id ? note.title = title : null)
     }
 
     const createItem = (title: string) => {
         let item = {title: title, id: uuid()}
         setNotes([...notes,item])
-        console.log(notes)
     }
 
     return(<List>
-        {notes.map(item => <NoteItem item={item} deleteItem={deleteItem}/>)}
-        <AddItem createItem={createItem}/>
+        {notes.map(item => <NoteItem item={item} deleteItem={deleteItem} updateItem={updateItem}/>)}
+        <EditItem createItem={createItem} initial={''}/>
     </List>)
 }
 

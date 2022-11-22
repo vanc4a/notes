@@ -5,16 +5,20 @@ import {AddCircleOutline} from '@mui/icons-material'
 
 type Props = {
     createItem: Function;
+    initial: string
 }
 
-const AddItem = ({createItem} : Props) => {
-    const [title,setTitle] = useState('')
+const EditItem = ({createItem,initial} : Props) => {
+    const [title,setTitle] = useState(initial);
 
     const Tags = (str: String) => str.includes('#') ? str.slice(str.indexOf('#')).split(' ') : [];
 
     return(<ListItem sx={{backgroundColor:'white',mb:1}}>
     <ListItemText 
-    primary={<TextField id="outlined-basic" 
+    primary={<TextField 
+        fullWidth
+        sx={{alignSelf:'stretch'}}
+        id="outlined-basic" 
         label="Title" 
         variant="outlined"  
         value={title} 
@@ -27,4 +31,4 @@ const AddItem = ({createItem} : Props) => {
   </ListItem>)
 }
 
-export default AddItem;
+export default EditItem;

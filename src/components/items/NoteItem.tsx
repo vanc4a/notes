@@ -1,18 +1,27 @@
+import {useState} from 'react';
 import {ListItem, ListItemText, Box, Chip, IconButton} from '@mui/material';
 import {HighlightOff} from '@mui/icons-material';
 import Note from '../../interfaces/Note';
+import EditItem from './EditItem';
 
 type NoteProps = {
     item: Note;
     deleteItem: Function;
+    updateItem: Function;
 };
 
-const NoteItem = ({item,deleteItem} : NoteProps) => {
+const NoteItem = ({item,deleteItem,updateItem} : NoteProps) => {
+    const [isEditing,setEditing] = useState(false)
 
-    const Title = (str: String) => str.includes('#') ? str.slice(0,str.indexOf('#')) : str;
-    const Tags = (str: String) => str.includes('#') ? str.slice(str.indexOf('#')).split(' ') : [];
+    const Title = (str: string) => str.includes('#') ? str.slice(0,str.indexOf('#')) : str;
+    const Tags = (str: string) => str.includes('#') ? str.slice(str.indexOf('#')).split(' ') : [];
+    const Update = (str: string) => {updateItem(item.id, str);setEditing(false)}
 
-    return(<ListItem sx={{backgroundColor:'white',mb:1}}>
+    if(isEditing){
+      return <EditItem createItem={Update} initial={item.title}/>
+    }
+
+    return(<ListItem sx={{backgroundColor:'white',mb:1}} onClick={() => setEditing(true)} >
     <ListItemText primary={Title(item.title)} secondary={<Box>{Tags(item.title).map(chip => <Chip label={chip} sx={{mr:1,mt:1}}/>)}</Box>} />
     <IconButton  onClick={() => deleteItem(item.id)}>
     <HighlightOff />
