@@ -1,8 +1,8 @@
 import Note from "../interfaces/Note";
 
 class NotesRepository {
-    get(): Array<Note> {
-        let value = localStorage.getItem('@notes');
+    get(): Note[] {
+        let value : string | null = localStorage.getItem('@notes');
         if(value === null){
             return [];
         }
@@ -25,7 +25,7 @@ class NotesRepository {
         let storage = this.get();
         storage.map((note,index) => {
             if(note.id === id){
-                storage.splice(index)
+                storage.splice(index,1)
             }
         })
         localStorage.setItem('@notes',JSON.stringify(storage));

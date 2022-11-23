@@ -9,11 +9,11 @@ type Props = {
 }
 
 const EditItem = ({createItem,initial} : Props) => {
-    const [title,setTitle] = useState(initial);
+    const [title,setTitle] = useState<string>(initial);
 
     const Tags = (str: String) => str.includes('#') ? str.slice(str.indexOf('#')).split(' ') : [];
 
-    return(<ListItem sx={{backgroundColor:'white',mb:1}}>
+    return(<ListItem sx={{backgroundColor:'#f2f2f2',mb:1,borderRadius:4}}>
     <ListItemText 
     primary={<TextField 
         fullWidth

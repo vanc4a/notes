@@ -5,7 +5,7 @@ import NotesList from './components/NotesList';
 
 function App() {
   return (
-    <Container maxWidth='xs' sx={{backgroundColor:'#f2f2f2',height:1/2}}>
+    <Container maxWidth='xs'>
         <NotesList />
     </Container>
   );
