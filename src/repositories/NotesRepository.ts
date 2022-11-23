@@ -23,11 +23,7 @@ class NotesRepository {
 
     delete(id: string) {
         let storage = this.get();
-        storage.map((note,index) => {
-            if(note.id === id){
-                storage.splice(index,1)
-            }
-        })
+        storage.map((note,index) => note.id === id ? storage.splice(index,1) : null)
         localStorage.setItem('@notes',JSON.stringify(storage));
     }
 }

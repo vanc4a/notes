@@ -7,28 +7,26 @@ import NotesRepository from '../repositories/NotesRepository';
 import Note from '../interfaces/Note';
 
 const NotesList = () => {
-    const [notes,setNotes] = useState<Note[]>([]);
+    const notesRepository = new NotesRepository();
+    const [notes,setNotes] = useState<Note[]>(notesRepository.get());
     const [tags,setTags] = useState<string[]>([]);
     const [search,setSearch] = useState<string | null>(null)
-    const notesRepository = new NotesRepository();
 
     useEffect(() => {
-        setNotes(notesRepository.get());
-        tagSorting();
-    },[notes.length, tags.length])  
+        setTags(tagSorting(notes));
+    },[notes])  
 
-    const tagSorting = () => {
-        let tmp = notes;
+    const tagSorting = (test: Note[]) => {
+        let tmp = test;
         let tagArr : string[] = []
         tmp.map(note => {
             let itemTags = note.title.includes('#') ? note.title.slice(note.title.indexOf('#')).split(' ') : [];
-            itemTags.map(tag => tagArr.includes(tag) ? null : tagArr.push(tag))
+            return itemTags.map(tag => tagArr.includes(tag) ? null : tagArr.push(tag))
         });
-        setTags(tagArr);
+        return tagArr;
     }
 
     const deleteItem = (id: string) => {
-        console.log(id)
         notesRepository.delete(id);
         setNotes(notes.filter(note => note.id !== id));
     }
@@ -36,7 +34,7 @@ const NotesList = () => {
     const updateItem = (id: string,title: string) => {
         notesRepository.update(id,title);
         notes.map(note => note.id === id ? note.title = title : null)
-        tagSorting();
+        setTags(tagSorting(notes));
     }
 
     const createItem = (title: string) => {
